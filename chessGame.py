@@ -95,7 +95,7 @@ def display():
                 print('-', end='\t')
         print()
 
-def move(ele):
+def moveW(ele):
     currentFigure = ele
     # white pawn movement and kills
     if currentFigure in whitePawns:
@@ -642,6 +642,179 @@ def move(ele):
                 print('invalid input')
         else:
             print('invalid input')
+
+            
+def moveB(ele):
+    currentFigure = ele
+    if currentFigure in blackPawns:
+        checkPos = [blackArmy[currentFigure][0]+1,blackArmy[currentFigure][1]]
+        checkKillLeft = [blackArmy[currentFigure][0]+1,blackArmy[currentFigure][1]-1]
+        checkKillRight = [(blackArmy[currentFigure][0])+1,(blackArmy[currentFigure][1])+1]
+        if checkPos[0]>=0 and checkPos not in blackArmy.values():
+            if checkKillRight in whiteArmy.values():
+                enemy = str({i for i in whiteArmy if whiteArmy[i]==checkKillRight})
+                ch = input(f'you can kill {enemy}, do it? y/n')
+                if ch == 'y':
+                    blackArmy[currentFigure] = checkKillRight
+                    whiteArmy[enemy] = None
+                else:
+                    blackArmy[currentFigure][0]+=1
+            elif checkKillLeft in whiteArmy.values():
+                enemy = str({i for i in whiteArmy if whiteArmy[i]==checkKillLeft})
+                ch = input(f'you can kill {enemy}, do it? y/n')
+                if ch == 'y':
+                    blackArmy[currentFigure] = checkKillLeft
+                    whiteArmy[enemy] = None
+                else:
+                    blackArmy[currentFigure][0]+=1
+            else:
+                blackArmy[currentFigure][0]+=1
+        elif checkPos in whiteArmy.values():
+            if checkKillRight in whiteArmy.values():
+                enemy = str({i for i in whiteArmy if whiteArmy[i]==checkKillRight})
+                ch = input(f'you can kill {enemy}, do it? y/n')
+                if ch == 'y':
+                    blackArmy[currentFigure] = checkKillRight
+                    whiteArmy[enemy] = None
+                else:
+                    print('illegal move')
+            elif checkKillLeft in whiteArmy.values():
+                enemy = str({i for i in whiteArmy if whiteArmy[i]==checkKillLeft})
+                ch = input(f'you can kill {enemy}, do it? y/n')
+                if ch == 'y':
+                    blackArmy[currentFigure] = checkKillLeft
+                    whiteArmy[enemy] = None
+                else:
+                    print('illegal move')
+        else:
+            print('illegal move')
+    elif currentFigure in blackRooks:
+        move = input('choose vertical or horizontal v/h')
+        if move == 'v':
+            ch = input('up or down? u/d')
+            if ch == 'u':
+                dist = int(input('enter number of moves'))
+                checkPos = [(blackArmy[currentFigure][0])-dist,blackArmy[currentFigure][1]]
+                if checkPos in blackArmy.values():
+                    enemy = str({i for i in whiteArmy if whiteArmy[i]==checkPos})
+                    ch = input(f'you can kill {enemy}, do it? y/n (n will cancel the move)')
+                    if ch == 'y':
+                        blackArmy[currentFigure] = checkPos
+                        whiteArmy[enemy] = None
+                elif checkPos in blackArmy.values() or checkPos[0]<0:
+                    print('illegal move')
+                else:
+                    blackArmy[currentFigure] = checkPos
+                    print(checkPos)
+            elif ch == 'd':
+                dist = int(input('enter number of moves'))
+                checkPos = [(blackArmy[currentFigure][0])+dist,blackArmy[currentFigure][1]]
+                if checkPos in whiteArmy.values():
+                    enemy = str({i for i in whiteArmy if whiteArmy[i]==checkPos})
+                    ch = input(f'you can kill {enemy}, do it? y/n (n will cancel the move)')
+                    if ch == 'y':
+                        blackArmy[currentFigure] = checkPos
+                        whiteArmy[enemy] = None
+                elif checkPos not in blackArmy.values() and checkPos[0]<=7:
+                    blackArmy[currentFigure] = checkPos
+                else:
+                    print('illegal move')
+            else:
+                print('invalid input')
+        elif move == 'h':
+            ch = input('right or left r/l')
+            if ch == 'r':
+                dist = int(input('enter number of moves'))
+                checkPos = [blackArmy[currentFigure][0],(blackArmy[currentFigure][1])+dist]
+                if checkPos in whiteArmy.values():
+                    enemy = str({i for i in whiteArmy if whiteArmy[i]==checkPos})
+                    ch = input(f'you can kill {enemy}, do it? y/n (n will cancel the move)')
+                    if ch == 'y':
+                        blackArmy[currentFigure] = checkPos
+                        whiteArmy[enemy] = None
+                elif checkPos not in blackArmy.values() and checkPos[0]<=7:
+                    blackArmy[currentFigure] = checkPos
+                else:
+                    print('illegal move')
+            elif ch == 'l':
+                dist = int(input('enter number of moves'))
+                checkPos = [blackArmy[currentFigure][0],(blackArmy[currentFigure][1])-dist]
+                if checkPos in whiteArmy.values():
+                    enemy = str({i for i in whiteArmy if whiteArmy[i]==checkPos})
+                    ch = input(f'you can kill {enemy}, do it? y/n (n will cancel the move)')
+                    if ch == 'y':
+                        blackArmy[currentFigure] = checkPos
+                        whiteArmy[enemy] = None
+                elif checkPos not in blackArmy.values() and checkPos[0] >= 0 :
+                    blackArmy[currentFigure] = checkPos
+                else:
+                    print('illegal move')
+            else:
+                print('invalid input')
+    elif currentFigure in blackBishops:
+        move = input('choose up or down u/d')
+        if move == 'u':
+            ch = input('right or left r/l')
+            if ch == 'r':
+                dist = int(input('enter number of fields'))
+                checkPos = [blackArmy[currentFigure][0]-dist,(blackArmy[currentFigure][1])+dist]
+                if checkPos in whiteArmy.values():
+                    enemy = str({i for i in whiteArmy if whiteArmy[i]==checkPos})
+                    ch = input(f'you can kill {enemy}, do it? y/n (n will cancel the move)')
+                    if ch == 'y':
+                        blackArmy[currentFigure] = checkPos
+                        whiteArmy[enemy] = None
+                elif checkPos not in blackArmy.values() and checkPos[0]>=0 and checkPos[1]<=7:
+                    blackArmy[currentFigure] = checkPos
+                else:
+                    print('illegal move')
+            elif ch == 'l':
+                dist = int(input('enter number of fields'))
+                checkPos = [blackArmy[currentFigure][0]-dist,(blackArmy[currentFigure][1])-dist]
+                if checkPos in whiteArmy.values():
+                    enemy = str({i for i in whiteArmy if whiteArmy[i]==checkPos})
+                    ch = input(f'you can kill {enemy}, do it? y/n (n will cancel the move)')
+                    if ch == 'y':
+                        blackArmy[currentFigure] = checkPos
+                        whiteArmy[enemy] = None
+                elif checkPos not in blackArmy.values() and checkPos[0]>=0 and checkPos[1]>=0:
+                    blackArmy[currentFigure] = checkPos
+                else:
+                    print('illegal move')
+            else:
+                print('invalid input')
+        elif move == 'd':
+            ch = input('right or left r/l')
+            if ch == 'r':
+                dist = int(input('enter number of fields'))
+                checkPos = [blackArmy[currentFigure][0]+dist,(blackArmy[currentFigure][1])+dist]
+                if checkPos in whiteArmy.values():
+                    enemy = str({i for i in whiteArmy if whiteArmy[i]==checkPos})
+                    ch = input(f'you can kill {enemy}, do it? y/n (n will cancel the move)')
+                    if ch == 'y':
+                        blackArmy[currentFigure] = checkPos
+                        whiteArmy[enemy] = None
+                elif checkPos not in blackArmy.values() and checkPos[0]<=7 and checkPos[1]<=7:
+                    blackArmy[currentFigure] = checkPos
+                else:
+                    print('illegal move')
+            elif ch == 'l':
+                dist = int(input('enter number of fields'))
+                checkPos = [blackArmy[currentFigure][0]+dist,(blackArmy[currentFigure][1])-dist]
+                if checkPos in whiteArmy.values():
+                    enemy = str({i for i in whiteArmy if whiteArmy[i]==checkPos})
+                    ch = input(f'you can kill {enemy}, do it? y/n (n will cancel the move)')
+                    if ch == 'y':
+                        blackArmy[currentFigure] = checkPos
+                        whiteArmy[enemy] = None
+                elif checkPos not in blackArmy.values() and checkPos[0]<=7 and checkPos[1]>=0:
+                    blackArmy[currentFigure] = checkPos
+                else:
+                    print('illegal move')
+            else:
+                print('invalid input')
+        else:
+            print('invalid input')            
 
 
 while True:
