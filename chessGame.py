@@ -9,7 +9,7 @@ whiteArmy = {'wp1':[6,0],'wp2':[6,1],'wp3':[6,2],'wp4':[6,3],'wp5':[6,4],'wp6':[
 blackArmy = {'bp1':[1,0],'bp2':[1,1],'bp3':[1,2],'bp4':[1,3],'bp5':[1,4],'bp6':[1,5],'bp7':[1,6],'bp8':[1,7],
               'br1':[0,0],'br2':[0,7], 'bk1':[0,1],'bk2':[0,6], 'bb1':[0,2],'bb2':[0,5], 'bking':[0,4],'bqueen':[0,3]}
 
-# makeshift objects for logic purposes
+# for logic purposes
 whitePawns = ['wp1','wp2','wp3','wp4','wp5','wp6','wp7','wp8']
 whiteRooks = ['wr1','wr2']
 whiteKnights = ['wk1','wk2']
@@ -109,8 +109,7 @@ def moveW(ele):
         # check diagonals for kill opportunities
         checkKillLeft = [whiteArmy[currentFigure][0] - 1, whiteArmy[currentFigure][1] - 1]
         checkKillRight = [(whiteArmy[currentFigure][0]) - 1, (whiteArmy[currentFigure][1]) + 1]
-        if checkPos[
-            0] >= 0 and checkPos not in whiteArmy.values():  # check if out of bounds or in front of another white piece
+        if checkPos[0] >= 0 and checkPos not in whiteArmy.values():  # check if out of bounds or in front of another white piece
             # handle optional killing
             if checkKillRight in blackArmy.values():
                 enemy = str(get_key(blackArmy,checkKillRight))  # get key of the enemy that is at the destination
@@ -406,7 +405,7 @@ def moveW(ele):
     elif currentFigure == whiteQueen: # Queen implements all the movements of rook and bishop
         move = input('vertical horizontal or diagonal v/h/d')
         if move == 'v':
-            ch == input('up or down u/d')
+            ch = input('up or down u/d')
             if ch == 'u':
                 dist = int(input('enter number of fields'))
                 checkPos = [(whiteArmy[currentFigure][0]) - dist,
@@ -484,7 +483,7 @@ def moveW(ele):
                         whiteArmy[currentFigure] = checkPos
                     else:
                         print('illegal move')
-                elif ch == 'l':
+                elif ch2 == 'l':
                     dist = int(input('enter number of fields'))
                     checkPos = [whiteArmy[currentFigure][0] - dist, (whiteArmy[currentFigure][1]) - dist]
                     if checkPos in blackArmy.values():
@@ -498,7 +497,7 @@ def moveW(ele):
                     else:
                         print('illegal move')
                 else:
-                    print('invalid output')
+                    print('invalid input')
             elif ch == 'd':
                 ch = input('right or left r/l')
                 if ch == 'r':
@@ -1214,43 +1213,41 @@ def playGame():
             player = 'Black'
         print("------------------------------------------------")
         print("{}'s turn".format(player))
-        ch = int(input('Press 1 to move a piece: '))
-        if ch == 1:
-            ele = input('Choose a piece to move: ')
-            if (turn % 2 == 0):
-                if ele in whitePawns and whiteArmy[ele][0] == 6: # handle first move of pawns
-                    dist = int(input('Enter how many spaces you want to move (1/2):'))
-                    if dist == 1:
-                        checkPos = [whiteArmy[ele][0] - 1, whiteArmy[ele]]
-                        if checkPos not in blackArmy.values():
-                            whiteArmy[ele][0] -= 1
-                        else:
-                            print("You cannot make a move.")
-                    elif dist == 2:
-                        checkPos = [whiteArmy[ele][0] - 2, whiteArmy[ele]]
-                        if checkPos not in blackArmy.values():
-                            whiteArmy[ele][0] -= 2
+        ele = input('Choose a piece to move: ')
+        if (turn % 2 == 0):
+            if ele in whitePawns and whiteArmy[ele][0] == 6: # handle first move of pawns
+                dist = int(input('Enter how many spaces you want to move (1/2):'))
+                if dist == 1:
+                    checkPos = [whiteArmy[ele][0] - 1, whiteArmy[ele]]
+                    if checkPos not in blackArmy.values():
+                        whiteArmy[ele][0] -= 1
                     else:
-                        print("Invalid input.")
+                        print("You cannot make a move.")
+                elif dist == 2:
+                    checkPos = [whiteArmy[ele][0] - 2, whiteArmy[ele]]
+                    if checkPos not in blackArmy.values():
+                        whiteArmy[ele][0] -= 2
                 else:
-                    moveW(ele)
+                    print("Invalid input.")
             else:
-                if ele in blackPawns and blackArmy[ele][0] == 1:
-                    dist = int(input('Enter how many spaces you want to move (1/2):'))
-                    if dist == 1:
-                        checkPos = [blackArmy[ele][0], blackArmy[ele]]
-                        if checkPos not in blackArmy.values():
-                            blackArmy[ele][0] = blackArmy[ele][0]
-                        else:
-                            print("You cannot make a move.")
-                    elif dist == 2:
-                        checkPos = [blackArmy[ele][0] + 1, blackArmy[ele]]
-                        if checkPos not in blackArmy.values():
-                            blackArmy[ele][0] += 1
+                moveW(ele)
+        else:
+            if ele in blackPawns and blackArmy[ele][0] == 1:
+                dist = int(input('Enter how many spaces you want to move (1/2):'))
+                if dist == 1:
+                    checkPos = [blackArmy[ele][0], blackArmy[ele]]
+                    if checkPos not in blackArmy.values():
+                        blackArmy[ele][0] = blackArmy[ele][0]
                     else:
-                        print("Invalid input.")
-                moveB(ele)
-            turn += 1
+                        print("You cannot make a move.")
+                elif dist == 2:
+                    checkPos = [blackArmy[ele][0] + 1, blackArmy[ele]]
+                    if checkPos not in blackArmy.values():
+                        blackArmy[ele][0] += 1
+                else:
+                    print("Invalid input.")
+            moveB(ele)
+        turn += 1
 def intro():
     print("Want to be the next Nepomniachtchi?")
     print("-----------------------------------")
